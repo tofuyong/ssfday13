@@ -30,7 +30,7 @@ public class Employee {
     @NotEmpty(message = "Email is a mandatory field")
     private String email;
 
-    @Pattern(regexp = "(\\8|9)[0-9]{7}", message="Invalid No. format") //no. starts with 8/9, 7 digits long
+    @Pattern(regexp = "(8|9)[0-9]{7}", message="Invalid No. format") //no. starts with 8/9, 7 digits long
     private String phoneNo;
 
     @Min(value=1500, message="Min salary starts from 1500")
@@ -43,7 +43,9 @@ public class Employee {
 
     private String address;
 
-    @Digits(fraction=0, integer=6, message="6 digit format required") //fractions not allowed, 6 digits required
+    // @Min(value=111111, message="Starts from 111111")
+    // @Max(value=999999, message="Ends with 999999")
+    @Digits(fraction=0, integer=6, message="6 digit format required") //fractions not allowed, error will only appear if more than 6 digits keyed in
     private Integer postalCode;
 
 

@@ -23,11 +23,11 @@ public class EmployeeRepo {
 
         DateFormat df = new SimpleDateFormat ("yyyy-MM-dd");
         Date dt = df.parse("1980-10-15");
-        Employee emp = new Employee("Derrick", "Tan", "dt@gmail.com", "9123456", 7500, dt, "10 Ghim Moh", 272210);
+        Employee emp = new Employee("Derrick", "Tan", "derrickt@gmail.com", "9123456", 7500, dt, "10 Ghim Moh", 272210);
         employees.add(emp);
 
         dt = df.parse("1972-02-18");
-        emp = new Employee("DEnnis", "Chew", "dennis@gmail.com", "9234567", 7800, dt, "128Ghim Moh", 272211);
+        emp = new Employee("Dennis", "Chew", "dennisc@gmail.com", "9234567", 7800, dt, "12 Ghim Moh", 272211);
         employees.add(emp);
 
     }
@@ -53,6 +53,12 @@ public class EmployeeRepo {
             result = true;
         }
         return result;
+    }
+
+    public Employee findByEmailId(String email) {
+        Employee emp = employees.stream().filter(e -> e.getEmail().equals(email)).findFirst().get();
+
+        return emp;
     }
 
 
