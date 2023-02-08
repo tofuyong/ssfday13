@@ -1,5 +1,6 @@
 package ibf2022.ssf.day13.controller;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/addnew")
-    public String addEmployee(@Valid @ModelAttribute("employee") Employee employeeForm, BindingResult result, Model model) {
+    public String addEmployee(@Valid @ModelAttribute("employee") Employee employeeForm, BindingResult result, Model model) throws FileNotFoundException {
 
         if (result.hasErrors()) {
             return "employeeadd";
@@ -58,6 +59,26 @@ public class EmployeeController {
         Employee emp = empRepo.findByEmailId(email); //this will return one employee object
         Boolean bResult = empRepo.delete(emp);
         return "redirect:/employees/home";
+    }
+
+    @GetMapping("/updateEmployee/{email}") //update with path variable email
+    public String updEmployee(@PathVariable("email") String email, Model model) {
+
+        Employee emp = empRepo.findByEmailId(email);  
+        model.addAttribute("employee", emp);
+
+        return "employeeupdate";
+    }
+
+    @PostMapping("/updateEmp")
+    public String updEmployeeProcess(@ModelAttribute("employee") Employee emp, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "employeeupdate";
+        }
+
+        empRepo.updateEmployee(emp);
+        return "redirect:/employees/home";
+
     }
 
 }

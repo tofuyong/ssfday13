@@ -1,5 +1,10 @@
 package ibf2022.ssf.day13.repository;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,6 +18,9 @@ import ibf2022.ssf.day13.model.Employee;
 
 @Repository    
 public class EmployeeRepo {
+
+    final String dirPath = "/Users/andreayong/data";
+    final String filename = "employee.txt";
 
     private List<Employee> employees;
 
@@ -37,8 +45,17 @@ public class EmployeeRepo {
         return employees;
     }
 
-    public Boolean save(Employee employee) {
+    public Boolean save(Employee employee) throws FileNotFoundException {
         Boolean result = employees.add(employee);
+
+        // to save the file (Java IO)
+        File f = new File(dirPath + "/" + filename);
+        OutputStream os = new FileOutputStream(f, true);
+        PrintWriter pw = new PrintWriter(os);
+        pw.println(employee.toString()); //this is not good as it's not comma-delimited, need to ensure it is
+        pw.flush();
+        pw.close();
+    
         return result;
     }
     
@@ -61,5 +78,19 @@ public class EmployeeRepo {
         return emp;
     }
 
+
+    public Boolean updateEmployee(Employee em) {
+        Employee emp = employees.stream().filter(e -> e.getEmail().equals(em.getEmail())).findFirst().get();
+
+        int employeeIndex = employees.indexOf(emp);
+
+        if (employeeIndex >= 0) {
+            employees.remove(employeeIndex);
+        }
+
+        employees.add(em); //replace with new employee record
+
+        return true;
+    }
 
 }
