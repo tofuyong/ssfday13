@@ -20,9 +20,12 @@ public class Day13Application implements ApplicationRunner {
 
 			File fileDir = new File(dataDir);
 
+			// just for testing
 			if (!fileDir.exists()) {
 				fileDir.mkdir();
 				System.out.println("***" + fileDir.getAbsolutePath());
+				System.out.println("***" + fileDir.getPath());
+				System.out.println("***" + fileDir.getParent());
 			} else {
 				System.out.println(fileDir.getAbsolutePath());
 			}
